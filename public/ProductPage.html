@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVolley - Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff4757, #2ed573);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 71, 87, 0.5);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #ff4757;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 80%;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 5%;
+            min-height: calc(100vh - 80px);
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #fff, #f1f2f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .wishlist-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 18px;
+            color: #555555;
+            cursor: pointer;
+            background-color: rgba(255,255,255,0.9);
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-icon:hover {
+            color: #ff4757;
+            background-color: rgba(255,255,255,1);
+            transform: scale(1.1);
+        }
+
+        .product-content {
+            padding: 25px;
+        }
+
+        .brand-name {
+            font-size: 12px;
+            color: #ff4757;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            height: 44px;
+            overflow: hidden;
+        }
+
+        .product-details {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .price-section {
+            margin-bottom: 15px;
+        }
+
+        .current-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ff4757;
+            margin-right: 10px;
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: #95a5a6;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .discount-badge {
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            margin-right: 8px;
+        }
+
+        .stars .fas {
+            color: #f8b400;
+        }
+
+        .stars .far {
+            color: #ddd;
+        }
+
+        .btn-add-to-cart {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: #ffffff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn-add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(45deg, #ff3742, #ff4757);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            nav {
+                gap: 20px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 5%;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5em;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            
+            .product-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2em;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                font-size: 12px;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="homepage.html" style="text-decoration: none;">
+            <div class="logo">VibeVolley</div>
+        </a>
+        <nav>
+            <a href="trainingPage.html">Training</a>
+            <a href="#">Tournament</a>
+            <a href="ProductPage.html">Shop</a>
+            <a href="#">Profile</a>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="main-content">
+            <div class="page-header">
+                <h1>Volleyball Gear</h1>
+                <p>Premium equipment for every level of player</p>
+            </div>
+
+            <div class="product-grid">
+
+                <!-- Product Card 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="ball.jpg" alt="Professional volleyball with blue and white design">
+                        <i class="far fa-heart wishlist-icon"></i>
+                    </div>
+                    <div class="product-content">
+                        <div class="brand-name">VibeVolley</div>
+                        <h3 class="product-title">PRO VOLLEYBALL - BLUE EDITION</h3>
+                        <div class="product-details">
+                            <p>Type: Ball</p>
+                            <p>Color: Blue/White</p>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">MYR 150.00</span>
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(0)</span>
+                        </div>
+                        <form method="post" action="addtocart.php">
+                            <input type="hidden" name="product_name" value="PRO VOLLEYBALL - BLUE EDITION">
+                            <input type="hidden" name="product_price" value="150.00">
+                            <button type="submit" class="btn-add-to-cart">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="kneepad.jpeg" alt="Volleyball knee pads in black">
+                        <i class="far fa-heart wishlist-icon"></i>
+                    </div>
+                    <div class="product-content">
+                        <div class="brand-name">VibeVolley</div>
+                        <h3 class="product-title">PRO KNEE PADS - BLACK</h3>
+                        <div class="product-details">
+                            <p>Type: Knee Pads</p>
+                            <p>Color: Black</p>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">MYR 89.00</span>
+                            <span class="original-price">MYR 120.00</span>
+                            <span class="discount-badge">-25%</span>
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(45)</span>
+                        </div>
+                        <form method="post" action="addtocart.php">
+                            <input type="hidden" name="product_name" value="PRO KNEE PADS - BLACK EDITION">
+                            <input type="hidden" name="product_price" value="89.00">
+                            <button type="submit" class="btn-add-to-cart">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="volleyballnet.jpg" alt="Volleyball net with red and white stripes">
+                        <i class="far fa-heart wishlist-icon"></i>
+                    </div>
+                    <div class="product-content">
+                        <div class="brand-name">VibeVolley</div>
+                        <h3 class="product-title">VOLLEYBALL NET - RED/WHITE</h3>
+                        <div class="product-details">
+                            <p>Type: Net</p>
+                            <p>Color: Red/White</p>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">MYR 250.00</span>
+                            <span class="original-price">MYR 300.00</span>
+                            <span class="discount-badge">-16%</span>
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(0)</span>
+                        </div>
+                        <button class="btn-add-to-cart" data-name="VOLLEYBALL NET - RED" data-price="250.00">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="volleyballshoes.jpg" alt="Volleyball shoes with green accents">
+                        <i class="far fa-heart wishlist-icon"></i>
+                    </div>
+                    <div class="product-content">
+                        <div class="brand-name">VibeVolley</div>
+                        <h3 class="product-title">VOLLEYBALL SHOES - GREEN ACCENT</h3>
+                        <div class="product-details">
+                            <p>Type: Shoes</p>
+                            <p>Color: Green/White</p>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">MYR 320.00</span>
+                            <span class="original-price">MYR 400.00</span>
+                            <span class="discount-badge">-20%</span>
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(12)</span>
+                        </div>
+                        <button class="btn-add-to-cart" data-name="VOLLEYBALL SHOES - GREEN" data-price="320.00">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="volleyballset.jpg" alt="Complete volleyball set">
+                        <i class="far fa-heart wishlist-icon"></i>
+                    </div>
+                    <div class="product-content">
+                        <div class="brand-name">VibeVolley</div>
+                        <h3 class="product-title">COMPLETE VOLLEYBALL SET</h3>
+                        <div class="product-details">
+                            <p>Type: Complete Set</p>
+                            <p>Includes: Ball, Net, Pump</p>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">MYR 450.00</span>
+                            <span class="original-price">MYR 600.00</span>
+                            <span class="discount-badge">-25%</span>
+                        </div>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(8)</span>
+                        </div>
+                        <button class="btn-add-to-cart" data-name="COMPLETE VOLLEYBALL SET" data-price="450.00">Add to Cart</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
