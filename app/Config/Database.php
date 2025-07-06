@@ -24,33 +24,7 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    // @phpstan-ignore-next-line
-    public array $default = [
-        'DSN'          => '',
-        'hostname'     => env('DB_HOST'),
-        'username'     => env('DB_USER'),
-        'password'     => env('DB_PASS'),
-        'database'     => env('DB_NAME'),
-        'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8mb4',
-        'DBCollat'     => 'utf8mb4_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => 3306,
-        'numberNative' => false,
-        'foundRows'    => false,
-        'dateFormat'   => [
-            'date'     => 'Y-m-d',
-            'datetime' => 'Y-m-d H:i:s',
-            'time'     => 'H:i:s',
-        ],
-    ];
+    public array $default = [];
 
     //    /**
     //     * Sample database connection for SQLite3.
@@ -193,6 +167,34 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+
+        // Initialize the default database connection
+        $this->default = [
+            'DSN'          => '',
+            'hostname'     => env('DB_HOST'),
+            'username'     => env('DB_USER'),
+            'password'     => env('DB_PASS'),
+            'database'     => env('DB_NAME'),
+            'DBDriver'     => 'MySQLi',
+            'DBPrefix'     => '',
+            'pConnect'     => false,
+            'DBDebug'      => true,
+            'charset'      => 'utf8mb4',
+            'DBCollat'     => 'utf8mb4_general_ci',
+            'swapPre'      => '',
+            'encrypt'      => false,
+            'compress'     => false,
+            'strictOn'     => false,
+            'failover'     => [],
+            'port'         => 3306,
+            'numberNative' => false,
+            'foundRows'    => false,
+            'dateFormat'   => [
+                'date'     => 'Y-m-d',
+                'datetime' => 'Y-m-d H:i:s',
+                'time'     => 'H:i:s',
+            ],
+        ];
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
