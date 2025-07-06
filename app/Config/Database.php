@@ -24,12 +24,13 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
+    // @phpstan-ignore-next-line
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
-        'database'     => 'volleyball_club',
+        'hostname'     => env('DB_HOST'),
+        'username'     => env('DB_USER'),
+        'password'     => env('DB_PASS'),
+        'database'     => env('DB_NAME'),
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
