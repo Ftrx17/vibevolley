@@ -26,13 +26,29 @@ document.getElementById('saveEdit').addEventListener('click', () => {
 });
 
 function fetchUsers() {
+  console.log('Fetching users...');
   fetch('/api/get-users')
-    .then(res => res.json())
+    .then(res => {
+      console.log('Response status:', res.status);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(data => {
+      console.log('Received data:', data);
       const keyword = document.getElementById('searchName').value.toLowerCase();
       const filter = document.getElementById('filterPayment').value;
       const table = document.getElementById('userTable');
       table.innerHTML = '';
+      // Sort users by tier before displaying
+      const tierOrder = ['Platinum', 'Gold', 'Plus', 'Rookie'];
+      data = data.sort((a, b) => {
+        const aIdx = tierOrder.indexOf(a.tier);
+        const bIdx = tierOrder.indexOf(b.tier);
+        // If not found, put at end
+        return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
+      });
       data
         .filter(u => u.name.toLowerCase().includes(keyword) && (!filter || u.payment === filter))
         .forEach(user => {
@@ -65,6 +81,11 @@ function fetchUsers() {
           this.parentElement.parentElement.classList.add('edited');
         });
       });
+    })
+    .catch(error => {
+      console.error('Error fetching users:', error);
+      const table = document.getElementById('userTable');
+      table.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error loading users: ' + error.message + '</td></tr>';
     });
 }
 

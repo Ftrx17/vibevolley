@@ -33,7 +33,7 @@ abstract class BaseController extends Controller
      * class instantiation. These helpers will be available
      * to all other controllers that extend BaseController.
      *
-     * @var list<string>
+     * @var array
      */
     protected $helpers = [];
 
@@ -53,6 +53,41 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
 
-        // E.g.: $this->session = service('session');
+        // E.g.: $this->session = \Config\Services::session();
+    }
+
+    /**
+     * Check if user is logged in
+     */
+    protected function isLoggedIn()
+    {
+        $session = session();
+        $userId = $session->get('user_id');
+        
+        // Debug logging
+        log_message('debug', 'Session user_id: ' . ($userId ?? 'null'));
+        
+        return $userId !== null;
+    }
+
+    /**
+     * Get current user data
+     */
+    protected function getCurrentUser()
+    {
+        $session = session();
+        $userId = $session->get('user_id');
+        
+        if (!$userId) {
+            return null;
+        }
+        
+        try {
+            $db = \Config\Database::connect();
+            return $db->table('users')->where('user_ID', $userId)->get()->getRowArray();
+        } catch (\Exception $e) {
+            log_message('error', 'Database error in getCurrentUser: ' . $e->getMessage());
+            return null;
+        }
     }
 }

@@ -47,7 +47,7 @@ class Filters extends BaseFilters
      *
      * @see https://codeigniter.com/user_guide/incoming/filters.html#provided-filters
      *
-     * @var array{before: list<string>, after: list<string>}
+     * @var array{before: list<string>, after: list<string>>
      */
     public array $required = [
         'before' => [

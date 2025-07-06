@@ -2,10 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up | Volleyball Club</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | VibeVolley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="signup.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff4757, #2ed573);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 71, 87, 0.5);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #ff4757;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 80%;
+        }
+    </style>
 </head>
 <body>
+    
+
     <div class="wrapper">
         <form id="signupForm">
             <h2>Sign Up</h2>
@@ -44,7 +127,7 @@
             </div>
             <button type="submit">Sign Up</button>
             <div class="register">
-                <p>Already have an account? <a href="login.html">Login</a></p>
+                <p>Already have an account? <a href="/login">Login</a></p>
             </div>
             <div id="signupMessage" style="margin-top:15px;color:#fff;"></div>
         </form>
@@ -86,4 +169,4 @@
         });
     </script>
 </body>
-</html>
+</html> 

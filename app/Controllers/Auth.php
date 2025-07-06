@@ -48,7 +48,7 @@ class Auth extends BaseController
         if (strtolower($tier) === 'normal') {
             return $this->respondCreated([
                 'user_id' => $userId,
-                'redirect' => base_url('homepage.html'),
+                'redirect' => base_url('homepage'),
                 'message' => 'User registered successfully.'
             ]);
         } else {
@@ -57,7 +57,7 @@ class Auth extends BaseController
             $amount = $tierCost ? $tierCost['member_cost'] : 0;
             return $this->respondCreated([
                 'user_id' => $userId,
-                'redirect' => base_url('payment.html?user_id=' . $userId . '&amount=' . $amount),
+                'redirect' => base_url('payment?user_id=' . $userId . '&amount=' . $amount),
                 'amount' => $amount,
                 'message' => 'User registered, please proceed to payment.'
             ]);
@@ -78,17 +78,27 @@ class Auth extends BaseController
         if (!$user || !password_verify($this->request->getVar('password'), $user['password'])) {
             return $this->fail('Invalid email or password.', 401);
         }
+        
+        // Set session data for server-side authentication
+        $session = session();
+        $session->set([
+            'user_id' => $user['user_ID'],
+            'user_email' => $user['email'],
+            'user_name' => $user['full_name'],
+            'tier_ID' => $user['tier_ID']
+        ]);
+        
         $key = getenv('JWT_SECRET') ?: 'supersecretkey';
         $payload = [
             'iss' => base_url(),
             'sub' => $user['user_ID'],
             'email' => $user['email'],
-            'role' => ($user['email'] === 'admin@gmail.com') ? 'admin' : 'user',
+            'role' => ($user['email'] === 'vibevolley@gmail.com') ? 'admin' : 'user',
             'iat' => time(),
             'exp' => time() + 3600
         ];
         $token = JWT::encode($payload, $key, 'HS256');
-        $redirect = ($user['email'] === 'admin@gmail.com') ? base_url('admin.html') : base_url('homepage.html');
+        $redirect = ($user['email'] === 'vibevolley@gmail.com') ? base_url('admin') : base_url('homepage');
         return $this->respond([
             'token' => $token,
             'user' => [
@@ -100,5 +110,12 @@ class Auth extends BaseController
             ],
             'redirect' => $redirect
         ]);
+    }
+
+    public function logout()
+    {
+        $session = session();
+        $session->destroy();
+        return redirect()->to('/homepage')->with('success', 'You have been logged out successfully.');
     }
 }

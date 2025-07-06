@@ -350,19 +350,79 @@
                 gap: 10px;
             }
         }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #fff;
+            min-width: 140px;
+            box-shadow: 0 8px 32px rgba(44,62,80,0.13);
+            border-radius: 10px;
+            z-index: 1001;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .dropdown-menu a {
+            color: #2B2D42;
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            font-weight: 500;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+        .dropdown-menu a:hover {
+            background: #e0e7ff;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown:hover .dropdown-toggle {
+            background: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
 
+    <?php if (session()->getFlashdata('success')): ?>
+        <div style="background:rgba(46,213,115,0.1);border:1px solid #2ed573;color:#2ed573;padding:12px 20px;border-radius:8px;margin:20px auto 0 auto;max-width:500px;text-align:center;font-weight:600;">
+            <?= session('success') ?>
+        </div>
+    <?php endif; ?>
+
+    <div id="cart-feedback" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(46,213,115,0.97);border:2px solid #2ed573;color:#fff;padding:28px 40px;border-radius:16px;z-index:9999;box-shadow:0 8px 32px rgba(44,62,80,0.13);font-size:1.2em;font-weight:700;text-align:center;">
+    </div>
+
     <header>
-        <a href="homepage.html" style="text-decoration: none;">
+        <a href="homepage" style="text-decoration: none;">
             <div class="logo">VibeVolley</div>
         </a>
         <nav>
-            <a href="trainingPage.html">Training</a>
-            <a href="#">Tournament</a>
-            <a href="ProductPage.html">Shop</a>
-            <a href="#">Profile</a>
+            <a href="training-page">Training</a>
+            <a href="resources">Resources</a>
+            <a href="product-page">Shop</a>
+            <div class="dropdown">
+                <a href="profile" class="dropdown-toggle">Profile <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="profile">Profile</a>
+                    <a href="logout">Logout</a>
+                </div>
+            </div>
             <div class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
                 <span id="cart-count">0</span>
@@ -378,176 +438,90 @@
             </div>
 
             <div class="product-grid">
-
-                <!-- Product Card 1 -->
+                <?php foreach ($products as $product): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="ball.jpg" alt="Professional volleyball with blue and white design">
+                        <img src="/<?= esc($product['image']) ?>" alt="<?= esc($product['name']) ?>">
                         <i class="far fa-heart wishlist-icon"></i>
                     </div>
                     <div class="product-content">
                         <div class="brand-name">VibeVolley</div>
-                        <h3 class="product-title">PRO VOLLEYBALL - BLUE EDITION</h3>
+                        <h3 class="product-title"><?= esc($product['name']) ?></h3>
                         <div class="product-details">
-                            <p>Type: Ball</p>
-                            <p>Color: Blue/White</p>
+                            <p><?= esc($product['description']) ?></p>
                         </div>
                         <div class="price-section">
-                            <span class="current-price">MYR 150.00</span>
+                            <?php $tier = session('tier_ID'); ?>
+                            <?php
+                                $discount = 0;
+                                if ($tier == 1) $discount = 0.05;
+                                elseif ($tier == 2) $discount = 0.10;
+                                elseif ($tier == 3) $discount = 0.15;
+                                $discounted = $product['price'] * (1 - $discount);
+                            ?>
+                            <?php if ($discount > 0): ?>
+                                <span class="current-price">MYR <?= number_format($discounted, 2) ?></span>
+                                <span class="original-price">MYR <?= number_format($product['price'], 2) ?></span>
+                                <span class="discount-badge">
+                                    -<?= $discount * 100 ?>%
+                                </span>
+                            <?php else: ?>
+                                <span class="current-price">MYR <?= number_format($product['price'], 2) ?></span>
+                            <?php endif; ?>
                         </div>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>(0)</span>
-                        </div>
-                        <form method="post" action="addtocart.php">
-                            <input type="hidden" name="product_name" value="PRO VOLLEYBALL - BLUE EDITION">
-                            <input type="hidden" name="product_price" value="150.00">
+                        <form method="post" action="/cart/add">
+                            <input type="hidden" name="product_id" value="<?= esc($product['id']) ?>">
+                            <input type="hidden" name="product_name" value="<?= esc($product['name']) ?>">
+                            <input type="hidden" name="product_price" value="<?= esc($product['price']) ?>">
                             <button type="submit" class="btn-add-to-cart">Add to Cart</button>
                         </form>
                     </div>
                 </div>
-
-                <!-- Product Card 2 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="kneepad.jpeg" alt="Volleyball knee pads in black">
-                        <i class="far fa-heart wishlist-icon"></i>
-                    </div>
-                    <div class="product-content">
-                        <div class="brand-name">VibeVolley</div>
-                        <h3 class="product-title">PRO KNEE PADS - BLACK</h3>
-                        <div class="product-details">
-                            <p>Type: Knee Pads</p>
-                            <p>Color: Black</p>
-                        </div>
-                        <div class="price-section">
-                            <span class="current-price">MYR 89.00</span>
-                            <span class="original-price">MYR 120.00</span>
-                            <span class="discount-badge">-25%</span>
-                        </div>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>(45)</span>
-                        </div>
-                        <form method="post" action="addtocart.php">
-                            <input type="hidden" name="product_name" value="PRO KNEE PADS - BLACK EDITION">
-                            <input type="hidden" name="product_price" value="89.00">
-                            <button type="submit" class="btn-add-to-cart">Add to Cart</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="volleyballnet.jpg" alt="Volleyball net with red and white stripes">
-                        <i class="far fa-heart wishlist-icon"></i>
-                    </div>
-                    <div class="product-content">
-                        <div class="brand-name">VibeVolley</div>
-                        <h3 class="product-title">VOLLEYBALL NET - RED/WHITE</h3>
-                        <div class="product-details">
-                            <p>Type: Net</p>
-                            <p>Color: Red/White</p>
-                        </div>
-                        <div class="price-section">
-                            <span class="current-price">MYR 250.00</span>
-                            <span class="original-price">MYR 300.00</span>
-                            <span class="discount-badge">-16%</span>
-                        </div>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>(0)</span>
-                        </div>
-                        <button class="btn-add-to-cart" data-name="VOLLEYBALL NET - RED" data-price="250.00">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="volleyballshoes.jpg" alt="Volleyball shoes with green accents">
-                        <i class="far fa-heart wishlist-icon"></i>
-                    </div>
-                    <div class="product-content">
-                        <div class="brand-name">VibeVolley</div>
-                        <h3 class="product-title">VOLLEYBALL SHOES - GREEN ACCENT</h3>
-                        <div class="product-details">
-                            <p>Type: Shoes</p>
-                            <p>Color: Green/White</p>
-                        </div>
-                        <div class="price-section">
-                            <span class="current-price">MYR 320.00</span>
-                            <span class="original-price">MYR 400.00</span>
-                            <span class="discount-badge">-20%</span>
-                        </div>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>(12)</span>
-                        </div>
-                        <button class="btn-add-to-cart" data-name="VOLLEYBALL SHOES - GREEN" data-price="320.00">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="volleyballset.jpg" alt="Complete volleyball set">
-                        <i class="far fa-heart wishlist-icon"></i>
-                    </div>
-                    <div class="product-content">
-                        <div class="brand-name">VibeVolley</div>
-                        <h3 class="product-title">COMPLETE VOLLEYBALL SET</h3>
-                        <div class="product-details">
-                            <p>Type: Complete Set</p>
-                            <p>Includes: Ball, Net, Pump</p>
-                        </div>
-                        <div class="price-section">
-                            <span class="current-price">MYR 450.00</span>
-                            <span class="original-price">MYR 600.00</span>
-                            <span class="discount-badge">-25%</span>
-                        </div>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>(8)</span>
-                        </div>
-                        <button class="btn-add-to-cart" data-name="COMPLETE VOLLEYBALL SET" data-price="450.00">Add to Cart</button>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
             </div>
         </div>
     </main>
+
+    <script>
+    // Fetch cart count on page load
+    function updateCartCount() {
+        fetch('/cart/count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('cart-count').textContent = data.count;
+            });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount();
+        // Make cart icon a link to /cart
+        document.querySelector('.cart-icon').addEventListener('click', function() {
+            window.location.href = '/cart';
+        });
+        // Add to Cart AJAX
+        document.querySelectorAll('.btn-add-to-cart').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var form = btn.closest('form');
+                var formData = new FormData(form);
+                fetch('/cart/add-ajax', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cart-count').textContent = data.count;
+                    // Show feedback as a dialog for 1 second
+                    var feedback = document.getElementById('cart-feedback');
+                    feedback.textContent = 'Added to cart successfully!';
+                    feedback.style.display = 'block';
+                    setTimeout(function() {
+                        feedback.style.display = 'none';
+                    }, 1000);
+                });
+            });
+        });
+    });
+    </script>
 
 </body>
 </html>

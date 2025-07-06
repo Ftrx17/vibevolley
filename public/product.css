@@ -1,0 +1,100 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        /* ... (rest of the CSS from lines 21-250) ... */
+        .discount-badge {
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .stars {
+            margin-right: 8px;
+        }
+        .stars .fas {
+            color: #f8b400;
+        }
+        .stars .far {
+            color: #ddd;
+        }
+        .btn-add-to-cart {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: #ffffff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+        .btn-add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(45deg, #ff3742, #ff4757);
+        }
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            nav {
+                gap: 20px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 25px;
+            }
+        }
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 5%;
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .page-header h1 {
+                font-size: 2.5em;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            .product-content {
+                padding: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2em;
+            }
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                font-size: 12px;
+                gap: 10px;
+            }
+        }
+  
