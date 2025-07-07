@@ -171,10 +171,10 @@ class Database extends Config
         // Initialize the default database connection
         $this->default = [
             'DSN'          => '',
-            'hostname'     => env('DB_HOST'),
-            'username'     => env('DB_USER'),
-            'password'     => env('DB_PASS'),
-            'database'     => env('DB_NAME'),
+            'hostname'     => 'localhost',
+            'username'     => 'root',
+            'password'     => '',
+            'database'     => 'volleyball_club',
             'DBDriver'     => 'MySQLi',
             'DBPrefix'     => '',
             'pConnect'     => false,
