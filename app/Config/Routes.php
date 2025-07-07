@@ -5,7 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Pages::homepage');
+$routes->get('/', 'Home::index');
 $routes->post('api/signup', 'Auth::signup');
 $routes->post('api/login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
