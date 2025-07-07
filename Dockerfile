@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     git \
     libzip-dev \
     libpq-dev \
-    && docker-php-ext-install pdo_mysql mysqli pdo_pgsql pgsql
+    libicu-dev \
+    && docker-php-ext-install pdo_mysql mysqli pdo_pgsql pgsql intl
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
