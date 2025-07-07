@@ -25,7 +25,7 @@ COPY . /var/www/html
 COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
 # Install PHP dependencies
-RUN composer install --no-dev
+RUN composer install --no-dev --ignore-platform-reqs
 
 # Set permissions for writable directory
 RUN chown -R www-data:www-data /var/www/html/writable
