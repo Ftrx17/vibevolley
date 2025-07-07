@@ -21,6 +21,9 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . /var/www/html
 
+# Set Apache DocumentRoot to /var/www/html/public
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
 # Install Composer
 COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
